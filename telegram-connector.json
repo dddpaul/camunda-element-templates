@@ -1,0 +1,129 @@
+{
+  "$schema" : "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name" : "Telegram connector",
+  "id" : "com.github.dddpaul.camunda.connector.telegram.v1",
+  "description" : "Describe this connector",
+  "documentationRef" : "https://docs.camunda.io/docs/components/connectors/out-of-the-box-connectors/available-connectors-overview/",
+  "version" : 1,
+  "category" : {
+    "id" : "connectors",
+    "name" : "Connectors"
+  },
+  "appliesTo" : [ "bpmn:Task" ],
+  "elementType" : {
+    "value" : "bpmn:ServiceTask"
+  },
+  "groups" : [ {
+    "id" : "authentication",
+    "label" : "Authentication"
+  }, {
+    "id" : "compose",
+    "label" : "Compose"
+  }, {
+    "id" : "output",
+    "label" : "Output mapping"
+  }, {
+    "id" : "error",
+    "label" : "Error handling"
+  }, {
+    "id" : "retries",
+    "label" : "Retries"
+  } ],
+  "properties" : [ {
+    "value" : "com.github.dddpaul.camunda:telegram:1",
+    "binding" : {
+      "type" : "zeebe:taskDefinition:type"
+    },
+    "type" : "Hidden"
+  }, {
+    "id" : "authentication.user",
+    "label" : "Username",
+    "description" : "The username for authentication",
+    "optional" : false,
+    "constraints" : {
+      "notEmpty" : true
+    },
+    "feel" : "optional",
+    "group" : "authentication",
+    "binding" : {
+      "name" : "authentication.user",
+      "type" : "zeebe:input"
+    },
+    "type" : "String"
+  }, {
+    "id" : "authentication.token",
+    "label" : "Token",
+    "description" : "The token for authentication",
+    "optional" : false,
+    "constraints" : {
+      "notEmpty" : true
+    },
+    "feel" : "optional",
+    "group" : "authentication",
+    "binding" : {
+      "name" : "authentication.token",
+      "type" : "zeebe:input"
+    },
+    "type" : "String"
+  }, {
+    "id" : "message",
+    "label" : "Message",
+    "optional" : false,
+    "constraints" : {
+      "notEmpty" : true
+    },
+    "feel" : "optional",
+    "group" : "compose",
+    "binding" : {
+      "name" : "message",
+      "type" : "zeebe:input"
+    },
+    "type" : "Text"
+  }, {
+    "id" : "resultVariable",
+    "label" : "Result variable",
+    "description" : "Name of variable to store the response in",
+    "group" : "output",
+    "binding" : {
+      "key" : "resultVariable",
+      "type" : "zeebe:taskHeader"
+    },
+    "type" : "String"
+  }, {
+    "id" : "resultExpression",
+    "label" : "Result expression",
+    "description" : "Expression to map the response into process variables",
+    "feel" : "required",
+    "group" : "output",
+    "binding" : {
+      "key" : "resultExpression",
+      "type" : "zeebe:taskHeader"
+    },
+    "type" : "Text"
+  }, {
+    "id" : "errorExpression",
+    "label" : "Error expression",
+    "description" : "Expression to handle errors. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/\" target=\"_blank\">documentation</a>.",
+    "feel" : "required",
+    "group" : "error",
+    "binding" : {
+      "key" : "errorExpression",
+      "type" : "zeebe:taskHeader"
+    },
+    "type" : "Text"
+  }, {
+    "id" : "retryBackoff",
+    "label" : "Retry backoff",
+    "description" : "ISO-8601 duration to wait between retries",
+    "value" : "PT0S",
+    "group" : "retries",
+    "binding" : {
+      "key" : "retryBackoff",
+      "type" : "zeebe:taskHeader"
+    },
+    "type" : "Hidden"
+  } ],
+  "icon" : {
+    "contents" : "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI5NnB4IiBoZWlnaHQ9Ijk2cHgiPjxsaW5lYXJHcmFkaWVudCBpZD0iQmlGN0QxNlVsQzBSWl9WcVhKSG5YYSIgeDE9IjkuODU4IiB4Mj0iMzguMTQyIiB5MT0iOS44NTgiIHkyPSIzOC4xNDIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMzM2JlZjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwYTg1ZDkiLz48L2xpbmVhckdyYWRpZW50PjxwYXRoIGZpbGw9InVybCgjQmlGN0QxNlVsQzBSWl9WcVhKSG5YYSkiIGQ9Ik00NCwyNGMwLDExLjA0NS04Ljk1NSwyMC0yMCwyMFM0LDM1LjA0NSw0LDI0UzEyLjk1NSw0LDI0LDRTNDQsMTIuOTU1LDQ0LDI0eiIvPjxwYXRoIGQ9Ik0xMC4xMTksMjMuNDY2YzguMTU1LTMuNjk1LDE3LjczMy03LjcwNCwxOS4yMDgtOC4yODRjMy4yNTItMS4yNzksNC42NywwLjAyOCw0LjQ0OCwyLjExMwljLTAuMjczLDIuNTU1LTEuNTY3LDkuOTktMi4zNjMsMTUuMzE3Yy0wLjQ2NiwzLjExNy0yLjE1NCw0LjA3Mi00LjA1OSwyLjg2M2MtMS40NDUtMC45MTctNi40MTMtNC4xNy03LjcyLTUuMjgyCWMtMC44OTEtMC43NTgtMS41MTItMS42MDgtMC44OC0yLjQ3NGMwLjE4NS0wLjI1MywwLjY1OC0wLjc2MywwLjkyMS0xLjAxN2MxLjMxOS0xLjI3OCwxLjE0MS0xLjU1My0wLjQ1NC0wLjQxMgljLTAuMTksMC4xMzYtMS4yOTIsMC45MzUtMS43NDUsMS4yMzdjLTEuMTEsMC43NC0yLjEzMSwwLjc4LTMuODYyLDAuMTkyYy0xLjQxNi0wLjQ4MS0yLjc3Ni0wLjg1Mi0zLjYzNC0xLjIyMwlDOC43OTQsMjUuOTgzLDguMzQsMjQuMjcyLDEwLjExOSwyMy40NjZ6IiBvcGFjaXR5PSIuMDUiLz48cGF0aCBkPSJNMTAuODM2LDIzLjU5MWM3LjU3Mi0zLjM4NSwxNi44ODQtNy4yNjQsMTguMjQ2LTcuODEzYzMuMjY0LTEuMzE4LDQuNDY1LTAuNTM2LDQuMTE0LDIuMDExCWMtMC4zMjYsMi4zNTgtMS40ODMsOS42NTQtMi4yOTQsMTQuNTQ1Yy0wLjQ3OCwyLjg3OS0xLjg3NCwzLjUxMy0zLjY5MiwyLjMzN2MtMS4xMzktMC43MzQtNS43MjMtMy43NTQtNi44MzUtNC42MzMJYy0wLjg2LTAuNjc5LTEuNzUxLTEuNDYzLTAuNzEtMi41OThjMC4zNDgtMC4zNzksMi4yNy0yLjIzNCwzLjcwNy0zLjYxNGMwLjgzMy0wLjgwMSwwLjUzNi0xLjE5Ni0wLjQ2OS0wLjUwOAljLTEuODQzLDEuMjYzLTQuODU4LDMuMjYyLTUuMzk2LDMuNjI1Yy0xLjAyNSwwLjY5LTEuOTg4LDAuODU2LTMuNjY0LDAuMzI5Yy0xLjMyMS0wLjQxNi0yLjU5Ny0wLjgxOS0zLjI2Mi0xLjA3OAlDOS4wOTUsMjUuNjE4LDkuMDc1LDI0LjM3OCwxMC44MzYsMjMuNTkxeiIgb3BhY2l0eT0iLjA3Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTExLjU1MywyMy43MTdjNi45OS0zLjA3NSwxNi4wMzUtNi44MjQsMTcuMjg0LTcuMzQzYzMuMjc1LTEuMzU4LDQuMjgtMS4wOTgsMy43NzksMS45MQljLTAuMzYsMi4xNjItMS4zOTgsOS4zMTktMi4yMjYsMTMuNzc0Yy0wLjQ5MSwyLjY0Mi0xLjU5MywyLjk1NS0zLjMyNSwxLjgxMmMtMC44MzMtMC41NS01LjAzOC0zLjMzMS01Ljk1MS0zLjk4NAljLTAuODMzLTAuNTk1LTEuOTgyLTEuMzExLTAuNTQxLTIuNzIxYzAuNTEzLTAuNTAyLDMuODc0LTMuNzEyLDYuNDkzLTYuMjFjMC4zNDMtMC4zMjgtMC4wODgtMC44NjctMC40ODQtMC42MDQJYy0zLjUzLDIuMzQxLTguNDI0LDUuNTktOS4wNDcsNi4wMTNjLTAuOTQxLDAuNjM5LTEuODQ1LDAuOTMyLTMuNDY3LDAuNDY2Yy0xLjIyNi0wLjM1Mi0yLjQyMy0wLjc3Mi0yLjg4OS0wLjkzMglDOS4zODQsMjUuMjgyLDkuODEsMjQuNDg0LDExLjU1MywyMy43MTd6Ii8+PC9zdmc+"
+  }
+}
