@@ -2,7 +2,7 @@
   "$schema" : "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
   "name" : "Telegram connector",
   "id" : "com.github.dddpaul.camunda.connector.telegram.v1",
-  "description" : "Describe this connector",
+  "description" : "Send message to Telegram chat",
   "documentationRef" : "https://docs.camunda.io/docs/components/connectors/out-of-the-box-connectors/available-connectors-overview/",
   "version" : 1,
   "category" : {
@@ -36,24 +36,9 @@
     },
     "type" : "Hidden"
   }, {
-    "id" : "authentication.user",
-    "label" : "Username",
-    "description" : "The username for authentication",
-    "optional" : false,
-    "constraints" : {
-      "notEmpty" : true
-    },
-    "feel" : "optional",
-    "group" : "authentication",
-    "binding" : {
-      "name" : "authentication.user",
-      "type" : "zeebe:input"
-    },
-    "type" : "String"
-  }, {
     "id" : "authentication.token",
     "label" : "Token",
-    "description" : "The token for authentication",
+    "description" : "Telegram bot token",
     "optional" : false,
     "constraints" : {
       "notEmpty" : true
@@ -65,6 +50,20 @@
       "type" : "zeebe:input"
     },
     "type" : "String"
+  }, {
+    "id" : "chatId",
+    "label" : "Chat ID",
+    "optional" : false,
+    "constraints" : {
+      "notEmpty" : true
+    },
+    "feel" : "optional",
+    "group" : "compose",
+    "binding" : {
+      "name" : "chatId",
+      "type" : "zeebe:input"
+    },
+    "type" : "Text"
   }, {
     "id" : "message",
     "label" : "Message",
@@ -124,6 +123,6 @@
     "type" : "Hidden"
   } ],
   "icon" : {
-    "contents" : "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI5NnB4IiBoZWlnaHQ9Ijk2cHgiPjxsaW5lYXJHcmFkaWVudCBpZD0iQmlGN0QxNlVsQzBSWl9WcVhKSG5YYSIgeDE9IjkuODU4IiB4Mj0iMzguMTQyIiB5MT0iOS44NTgiIHkyPSIzOC4xNDIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMzM2JlZjAiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwYTg1ZDkiLz48L2xpbmVhckdyYWRpZW50PjxwYXRoIGZpbGw9InVybCgjQmlGN0QxNlVsQzBSWl9WcVhKSG5YYSkiIGQ9Ik00NCwyNGMwLDExLjA0NS04Ljk1NSwyMC0yMCwyMFM0LDM1LjA0NSw0LDI0UzEyLjk1NSw0LDI0LDRTNDQsMTIuOTU1LDQ0LDI0eiIvPjxwYXRoIGQ9Ik0xMC4xMTksMjMuNDY2YzguMTU1LTMuNjk1LDE3LjczMy03LjcwNCwxOS4yMDgtOC4yODRjMy4yNTItMS4yNzksNC42NywwLjAyOCw0LjQ0OCwyLjExMwljLTAuMjczLDIuNTU1LTEuNTY3LDkuOTktMi4zNjMsMTUuMzE3Yy0wLjQ2NiwzLjExNy0yLjE1NCw0LjA3Mi00LjA1OSwyLjg2M2MtMS40NDUtMC45MTctNi40MTMtNC4xNy03LjcyLTUuMjgyCWMtMC44OTEtMC43NTgtMS41MTItMS42MDgtMC44OC0yLjQ3NGMwLjE4NS0wLjI1MywwLjY1OC0wLjc2MywwLjkyMS0xLjAxN2MxLjMxOS0xLjI3OCwxLjE0MS0xLjU1My0wLjQ1NC0wLjQxMgljLTAuMTksMC4xMzYtMS4yOTIsMC45MzUtMS43NDUsMS4yMzdjLTEuMTEsMC43NC0yLjEzMSwwLjc4LTMuODYyLDAuMTkyYy0xLjQxNi0wLjQ4MS0yLjc3Ni0wLjg1Mi0zLjYzNC0xLjIyMwlDOC43OTQsMjUuOTgzLDguMzQsMjQuMjcyLDEwLjExOSwyMy40NjZ6IiBvcGFjaXR5PSIuMDUiLz48cGF0aCBkPSJNMTAuODM2LDIzLjU5MWM3LjU3Mi0zLjM4NSwxNi44ODQtNy4yNjQsMTguMjQ2LTcuODEzYzMuMjY0LTEuMzE4LDQuNDY1LTAuNTM2LDQuMTE0LDIuMDExCWMtMC4zMjYsMi4zNTgtMS40ODMsOS42NTQtMi4yOTQsMTQuNTQ1Yy0wLjQ3OCwyLjg3OS0xLjg3NCwzLjUxMy0zLjY5MiwyLjMzN2MtMS4xMzktMC43MzQtNS43MjMtMy43NTQtNi44MzUtNC42MzMJYy0wLjg2LTAuNjc5LTEuNzUxLTEuNDYzLTAuNzEtMi41OThjMC4zNDgtMC4zNzksMi4yNy0yLjIzNCwzLjcwNy0zLjYxNGMwLjgzMy0wLjgwMSwwLjUzNi0xLjE5Ni0wLjQ2OS0wLjUwOAljLTEuODQzLDEuMjYzLTQuODU4LDMuMjYyLTUuMzk2LDMuNjI1Yy0xLjAyNSwwLjY5LTEuOTg4LDAuODU2LTMuNjY0LDAuMzI5Yy0xLjMyMS0wLjQxNi0yLjU5Ny0wLjgxOS0zLjI2Mi0xLjA3OAlDOS4wOTUsMjUuNjE4LDkuMDc1LDI0LjM3OCwxMC44MzYsMjMuNTkxeiIgb3BhY2l0eT0iLjA3Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTExLjU1MywyMy43MTdjNi45OS0zLjA3NSwxNi4wMzUtNi44MjQsMTcuMjg0LTcuMzQzYzMuMjc1LTEuMzU4LDQuMjgtMS4wOTgsMy43NzksMS45MQljLTAuMzYsMi4xNjItMS4zOTgsOS4zMTktMi4yMjYsMTMuNzc0Yy0wLjQ5MSwyLjY0Mi0xLjU5MywyLjk1NS0zLjMyNSwxLjgxMmMtMC44MzMtMC41NS01LjAzOC0zLjMzMS01Ljk1MS0zLjk4NAljLTAuODMzLTAuNTk1LTEuOTgyLTEuMzExLTAuNTQxLTIuNzIxYzAuNTEzLTAuNTAyLDMuODc0LTMuNzEyLDYuNDkzLTYuMjFjMC4zNDMtMC4zMjgtMC4wODgtMC44NjctMC40ODQtMC42MDQJYy0zLjUzLDIuMzQxLTguNDI0LDUuNTktOS4wNDcsNi4wMTNjLTAuOTQxLDAuNjM5LTEuODQ1LDAuOTMyLTMuNDY3LDAuNDY2Yy0xLjIyNi0wLjM1Mi0yLjQyMy0wLjc3Mi0yLjg4OS0wLjkzMglDOS4zODQsMjUuMjgyLDkuODEsMjQuNDg0LDExLjU1MywyMy43MTd6Ii8+PC9zdmc+"
+    "contents" : "data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAER0lEQVR4nO1ZzW8TRxRfpYVDjy09UThBu2t6Qy0BUuCfqFrRC0LqpYeqt6JccoNKCAkpQQmKoPRYUGkVmHFCZINoGwklfMWJEkLsJHZwjGMH52Oevf56aMZxEn9lZ+y1A5J/0pMsrz37+719782bt5rWRBNN1I6b+IHuhKMGgXaDwF86YeM6hSWdsKQw8RnG+DX+G52yVq0DW7SdxqF+2GcQ9ptBYd6ggCqmEwgYhF04QNlnDSd+gK58ahC4qlNmqhIvEUKZqVPo/rxvZU9DyH9B4LROIFor8RIjENEpfF834odHcJdBodd24rQktHr4vewl34cf6RRovckbmyIIv6c95EdwVyPJGxsi2KDjJu6uWUAjwsaomODQXRN5B4Ufdoq8kTcC31VFXh9c/sSgsLjTAnQC0apKLK/z9STW5orjpckkTixncCGetXoKV5TI893Rjk2q2A45Ac8+SmD/QhpTWdyAb217AZyLow/2K3hftAe2Ef9m3dt+toX1FtwNpiVygV2QY9+BLaJPqZO3y+HiRFJmzXneNFryF11lDcRPrHs7AKWss9kshiJLODnjL/j+zKOE1NqOfva1RPhAey3eTlfw9ioDnPD5cfSlD9cgvikKEVsH41L30SmckxFwW5b4KXfO26/KeDuPZCqFc8HX+HRyGsemZxASZsF1P7OoQFsFELhlHUL84LHNIl9KeDsfLuGlGD6f8gny4945TJjJkt8NLEgk8KaNygiIVvL21ekUhhMWGYmIKyJc5gRxbhMzfvEkyuHyC6kEztuitYAK9T8Utya+NVzy9mJ2HlPpdMX//DhsygsgLFG1gPZREz2xTNmwKQ6XvHkDQcxkthfe5orbLMDitHV4IJcDvd4UjsUyJeGSt9lgSAjbDgtWLURVIWSRxMV2b7yUfCC0iDJwhZQSWC6JVcoot3NDhTH/KhxBWXRNKSWwXBlV3cja7q3ik3Xy7jEfXhuaQtMi7vP4aUQhgXMb2a/WIURZq+JjxT+f+YWAW89m8R/3/9j70INRKK35xTjljqvt+JR9JdnMMb/Kwr/8tygE3Bj2CQHcOt0e9K5VfhJRUy2BdcrmpKd5vHVVWfzIwBo+nvSK8OHkb7iG8bjzDR4ZjONQJFNWwMOwagKz81o9DzR/PAng9X89+LtrGI85YwWtBy+5xeiZTsmTJyxx8A7bq6mATwRUBJx+8Aa77o9iq3O57PUOT7LgXPDzY6UE7tRU4eiPfWz3oZ73/UHIonc1K8LLkPI+RKqem/JZpZ0CqjGHE76tivyGCAI9OyigS7Pl5QWFvxtOnsDdk/fxQ/uGuwRIAwXcsW24WzTk7W5E2Jy0y/PlwGeVdRk5EgjXnLBKc1MCV/gGUztxxtfo5GVbazT47sjbDtXeiVvuP+y88g5bF3RgCx868bkN79n5wYOf7HIv8JgpTnkEnvNrvCUWXeW78Jq1iSa09x9vAV7LaYWk/U+hAAAAAElFTkSuQmCC"
   }
 }
