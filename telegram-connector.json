@@ -32,13 +32,13 @@
   "properties" : [ {
     "value" : "com.github.dddpaul.camunda:telegram:1",
     "binding" : {
-      "type" : "zeebe:taskDefinition:type"
+      "property" : "type",
+      "type" : "zeebe:taskDefinition"
     },
     "type" : "Hidden"
   }, {
     "id" : "authentication.token",
-    "label" : "Token",
-    "description" : "Telegram bot token",
+    "label" : "Telegram bot token",
     "optional" : false,
     "constraints" : {
       "notEmpty" : true
@@ -111,16 +111,29 @@
     },
     "type" : "Text"
   }, {
+    "id" : "retryCount",
+    "label" : "Retries",
+    "description" : "Number of retries",
+    "value" : "3",
+    "feel" : "optional",
+    "group" : "retries",
+    "binding" : {
+      "property" : "retries",
+      "type" : "zeebe:taskDefinition"
+    },
+    "type" : "String"
+  }, {
     "id" : "retryBackoff",
     "label" : "Retry backoff",
     "description" : "ISO-8601 duration to wait between retries",
     "value" : "PT0S",
+    "feel" : "optional",
     "group" : "retries",
     "binding" : {
       "key" : "retryBackoff",
       "type" : "zeebe:taskHeader"
     },
-    "type" : "Hidden"
+    "type" : "String"
   } ],
   "icon" : {
     "contents" : "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OHB4IiBoZWlnaHQ9IjQ4cHgiPjxwYXRoIGZpbGw9IiMyOWI2ZjYiIGQ9Ik0yNCA0QTIwIDIwIDAgMSAwIDI0IDQ0QTIwIDIwIDAgMSAwIDI0IDRaIi8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTMzLjk1LDE1bC0zLjc0NiwxOS4xMjZjMCwwLTAuMTYxLDAuODc0LTEuMjQ1LDAuODc0Yy0wLjU3NiwwLTAuODczLTAuMjc0LTAuODczLTAuMjc0bC04LjExNC02LjczMyBsLTMuOTctMi4wMDFsLTUuMDk1LTEuMzU1YzAsMC0wLjkwNy0wLjI2Mi0wLjkwNy0xLjAxMmMwLTAuNjI1LDAuOTMzLTAuOTIzLDAuOTMzLTAuOTIzbDIxLjMxNi04LjQ2OCBjLTAuMDAxLTAuMDAxLDAuNjUxLTAuMjM1LDEuMTI2LTAuMjM0QzMzLjY2NywxNCwzNCwxNC4xMjUsMzQsMTQuNUMzNCwxNC43NSwzMy45NSwxNSwzMy45NSwxNXoiLz48cGF0aCBmaWxsPSIjYjBiZWM1IiBkPSJNMjMsMzAuNTA1bC0zLjQyNiwzLjM3NGMwLDAtMC4xNDksMC4xMTUtMC4zNDgsMC4xMmMtMC4wNjksMC4wMDItMC4xNDMtMC4wMDktMC4yMTktMC4wNDMgbDAuOTY0LTUuOTY1TDIzLDMwLjUwNXoiLz48cGF0aCBmaWxsPSIjY2ZkOGRjIiBkPSJNMjkuODk3LDE4LjE5NmMtMC4xNjktMC4yMi0wLjQ4MS0wLjI2LTAuNzAxLTAuMDkzTDE2LDI2YzAsMCwyLjEwNiw1Ljg5MiwyLjQyNyw2LjkxMiBjMC4zMjIsMS4wMjEsMC41OCwxLjA0NSwwLjU4LDEuMDQ1bDAuOTY0LTUuOTY1bDkuODMyLTkuMDk2QzMwLjAyMywxOC43MjksMzAuMDY0LDE4LjQxNiwyOS44OTcsMTguMTk2eiIvPjwvc3ZnPg=="
