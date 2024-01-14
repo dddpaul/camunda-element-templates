@@ -63,7 +63,7 @@
       "name" : "chatId",
       "type" : "zeebe:input"
     },
-    "type" : "Text"
+    "type" : "String"
   }, {
     "id" : "message",
     "label" : "Message",
